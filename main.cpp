@@ -27,7 +27,7 @@ class Library
 {
 
 public:
-	bool addbook(const std::string& author, const std::string& title, Type bookType)
+	void addbook(const std::string& author, const std::string& title, Type bookType)
 	{
 		if (author.empty() || title.empty()) {
 
