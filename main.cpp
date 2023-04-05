@@ -5,44 +5,52 @@
 
 class Car {
 public:
-    Car(const std::string& model) : _model(model) {}
+    Car(const std::string& model, const std::string& brand) : _model(model), _brand(brand) {}
 
-    virtual ~Car() {}
+    ~Car() {}
 
-    std::string& getModel() {
+    const std::string& getModel() {
         return _model;
     }
+    const std::string& get_Brand() {
+        return _brand;
+    }
+
+    virtual void Print() = 0;
 
 private:
-    std::string _model;
+    const std::string _model;
+    const std::string _brand;
 };
 
 class Kia : public Car {
 public:
-    Kia(const std::string& model) : Car(model) {}
+    Kia(const std::string& model, const std::string& brand) : Car(model, brand) {}
 
-    virtual ~Kia() {
-        std::cout << "Kia " << getModel() << std::endl;
+    ~Kia() { }
+    void Print() override {
+        std::cout << get_Brand() << ": " << getModel() << std::endl;
     }
 
 };
 
 class BMW : public Car {
 public:
-    BMW(const std::string& model) : Car(model) {}
+    BMW(const std::string& model, const std::string& brand) : Car(model, brand) {}
 
-    virtual ~BMW() {
-        std::cout << "BMW " << getModel() << std::endl;
+    ~BMW() {}
+    void Print() override {
+        std::cout << get_Brand() << ": " << getModel() << std::endl;
     }
 
 };
 
 class Honda : public Car {
 public:
-    Honda(const std::string& model) : Car(model) {}
-
-    virtual ~Honda() {
-        std::cout << "Honda " << getModel() << std::endl;
+    Honda(const std::string& model, const std::string& brand) : Car(model, brand) {}
+    ~Honda() {}
+    void Print() override {
+        std::cout << get_Brand() << ": " << getModel() << std::endl;
     }
 
 };
@@ -55,26 +63,30 @@ int main() {
         std::cout << "Error opening file" << std::endl;
     }
     else {
-            std::string mark;
-            std::string model;
+        std::string brand;
+        std::string model;
 
-            while (fl >> mark >> model) {
-                if (mark == "Honda") {
-                    cars.push_back(new Honda(model));
-                }
-                else if (mark == "Kia") {
-                    cars.push_back(new Kia(model));
-                }
-                else if (mark == "BMW") {
-                    cars.push_back(new BMW(model));
-                }
-                else {
-                    std::cout << "Unknown car brand" << std::endl;
-                }
+        while (fl >> brand >> model) {
+            if (brand == "Honda") {
+                cars.push_back(new Honda(model, brand));
             }
- 
+            else if (brand == "Kia") {
+                cars.push_back(new Kia(model, brand));
+            }
+            else if (brand == "BMW") {
+                cars.push_back(new BMW(model, brand));
+            }
+            else {
+                std::cout << "Unknown brand " << std::endl;
+            }
+        }
+
     }
     fl.close();
+
+    for (auto car : cars) {
+        car->Print();
+    }
 
     for (auto car : cars) {
         delete car;
