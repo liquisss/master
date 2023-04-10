@@ -9,10 +9,10 @@ public:
 
     ~Car() {}
 
-    const std::string& getModel() {
+    const std::string& getModel() const {
         return _model;
     }
-    const std::string& get_Brand() {
+    const std::string& get_Brand() const {
         return _brand;
     }
 
@@ -27,7 +27,7 @@ class Kia : public Car {
 public:
     Kia(const std::string& model, const std::string& brand) : Car(model, brand) {}
 
-    ~Kia() { }
+    virtual ~Kia() { }
     void Print() override {
         std::cout << get_Brand() << ": " << getModel() << std::endl;
     }
@@ -38,7 +38,7 @@ class BMW : public Car {
 public:
     BMW(const std::string& model, const std::string& brand) : Car(model, brand) {}
 
-    ~BMW() {}
+    virtual ~BMW() {}
     void Print() override {
         std::cout << get_Brand() << ": " << getModel() << std::endl;
     }
@@ -48,7 +48,7 @@ public:
 class Honda : public Car {
 public:
     Honda(const std::string& model, const std::string& brand) : Car(model, brand) {}
-    ~Honda() {}
+    virtual ~Honda() {}
     void Print() override {
         std::cout << get_Brand() << ": " << getModel() << std::endl;
     }
