@@ -5,6 +5,11 @@
 #include <sstream>
 #include <algorithm>
 
+using namespace {
+    const std::string engineer_ = "инженер";
+    const std::string chairman_ = "председатель";
+}
+
 class Person {
 private:
     std::string Name;
@@ -12,48 +17,46 @@ private:
     std::string Position;
     std::string Group;
 public:
-    Person(std::string name, int year, std::string position, std::string group) :
+    Person(const std::string& name, int year, const std::string& position, const std::string& group) :
         Name(name), Year(year), Position(position), Group(group) {}
 
-    std::string GetName() { return Name; }
-    int GetYear() { return Year; }
-    std::string GetPosition() { return Position; }
-    std::string GetGroup() { return Group; }
-    void print() {
+    std::string GetName() const { return Name; }
+    int GetYear() const { return Year; }
+    std::string GetPosition() const  { return Position; }
+    std::string GetGroup() const { return Group; }
+    void print() const {
         std::cout << Name << ", " << Year << ", " << Position << ", " << Group << std::endl;
     }
 };
 
 class DB {
 private:
-    std::vector<Person*> Employees;
+    std::vector<Person> Employees;
 public:
-    void AddPerson(Person* p) {
-        Employees.push_back(p);
+    void AddPerson(const std::string& name, int year, const std::string& position, const std::string& group) {
+        Employees.emplace_back(Person(name, year, position, group));
     }
-    void PrintEnergy() const {
+    void PrintEngineer() const {
         for (const auto& p : Employees) {
-            if (p->GetPosition() == "инженер") {
-                p->print();
+            if (p.GetPosition() == engineer_) {
+                p.print();
             }
         }
     }
 
     void PrintNoPredsedatel() {
-        std::sort(Employees.begin(), Employees.end(), [](Person* p1, Person* p2) {
-            return p1->GetYear() < p2->GetYear();
+        std::sort(Employees.begin(), Employees.end(), [](const Person& p1, const Person& p2) {
+            return p1.GetYear() < p2.GetYear();
         });
         for (const auto& p : Employees) {
-            if (p->GetPosition() != "председатель") {
-                p->print();
+            if (p.GetPosition() != chairman_) {
+                p.print();
             }
         }
     }
 
     ~DB() {
-        for (const auto& p : Employees) {
-            delete p;
-        }
+        Employees.clear();
     }
 };
 
@@ -75,11 +78,11 @@ int main()
             ss >> year >> std::ws;
             std::getline(ss, position, ',');
             std::getline(ss >> std::ws, group);
-            db.AddPerson(new Person(name, year, position, group));
+            db.AddPerson(name, year, position, group);
         }
     }
 
-    db.PrintEnergy();
+    db.PrintEnergineer();
     std::cout << "------------------------------------" << std::endl;
     db.PrintNoPredsedatel();
     fl.close();
