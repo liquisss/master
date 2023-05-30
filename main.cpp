@@ -163,10 +163,10 @@ public:
 
 LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
-    static std::unordered_map<UINT, std::unique_ptr<MessageHander>> messageHandlers = {
-        {WM_COMMAND, std::make_unique<CommandMessage>()},
-        {WM_PAINT, std::make_unique<PaintMessage>()},
-        {WM_DESTROY, std::make_unique<DestroyMessage>()}
+    static std::unordered_map<UINT, std::shared_ptr<MessageHander>> messageHandlers = {
+        {WM_COMMAND, std::make_shared<CommandMessage>()},
+        {WM_PAINT, std::make_shared<PaintMessage>()},
+        {WM_DESTROY, std::make_shared<DestroyMessage>()}
     };
 
     auto it = messageHandlers.find(message);
