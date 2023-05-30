@@ -49,7 +49,8 @@ public:
     }
 };
 
-void del(std::vector<A*>& v) {
+template<class T>
+void del(const T& v) {
     for (int i = 0; i < v.size(); i++)
         delete v[i];
 }
@@ -63,7 +64,7 @@ int main() {
     l.push_back(new B("second"));
     // скопировать из списка в вектор
     v.resize(l.size());
-    for (auto ptr : l) {
+    for (const auto& ptr : l) {
         v.push_back(ptr->clone());
     }
     for (auto it = l.begin(); it != l.end(); ++it) {
