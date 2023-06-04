@@ -149,6 +149,7 @@ public:
         HDC hdc = BeginPaint(hWnd, &ps);
         // TODO: Добавьте сюда любой код прорисовки, использующий HDC...
         EndPaint(hWnd, &ps);
+      return 0;
     }
 };
 
